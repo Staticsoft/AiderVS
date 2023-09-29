@@ -36,15 +36,17 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
+      <Group guid="guidAiderVSPackageCmdSet" id="AiderMenuGroup" priority="256" >
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
+      </Group>
       <Group guid="guidAiderVSPackageCmdSet" id="AiderActionsMenuGroup" priority="1">
         <Parent guid="guidAiderVSPackageCmdSet" id="AiderMenu" />
       </Group>
     </Groups>
 
     <Menus>
-      <Menu guid="guidAiderVSPackageCmdSet" id="AiderMenu" priority="256" type="Menu">
-        <!--<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />-->
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_MM_TOOLSADDINS" />
+      <Menu guid="guidAiderVSPackageCmdSet" id="AiderMenu" priority="1" type="Menu">
+        <Parent guid="guidAiderVSPackageCmdSet" id="AiderMenuGroup" />
         <Strings>
           <ButtonText>Aider</ButtonText>
           <CommandName>Aider</CommandName>
@@ -96,6 +98,7 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidAiderVSPackageCmdSet" value="{b2774995-3f08-4f6b-a005-8b937911822c}">
+      <IDSymbol name="AiderMenuGroup" value="5" />
       <IDSymbol name="AiderMenu" value="4" />
       <IDSymbol name="AiderActionsMenuGroup" value="1" />
       <IDSymbol name="AddToChatCommandId" value="2" />
