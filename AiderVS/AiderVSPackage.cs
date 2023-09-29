@@ -48,6 +48,7 @@ namespace AiderVS
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await AddToChatCommand.InitializeAsync(this);
+            await RemoveFromChatCommand.InitializeAsync(this);
         }
 
         #endregion

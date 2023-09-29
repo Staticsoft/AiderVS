@@ -15,10 +15,10 @@
         defining some of the constants that we will use inside the file. -->
 
   <!--This is the file that defines the IDs for all the commands exposed by VisualStudio. -->
-  <Extern href="stdidcmd.h"/>
+  <Extern href="stdidcmd.h" />
 
   <!--This header contains the command ids for the menus provided by the shell. -->
-  <Extern href="vsshlids.h"/>
+  <Extern href="vsshlids.h" />
 
   <!--The Commands section is where commands, menus, and menu groups are defined.
       This section uses a Guid to identify the package that provides the command defined inside it. -->
@@ -36,8 +36,8 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidAiderVSPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      <Group guid="guidAiderVSPackageCmdSet" id="MyMenuGroup" priority="256">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE" />
       </Group>
     </Groups>
 
@@ -52,11 +52,18 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidAiderVSPackageCmdSet" id="AddToChatCommandId" priority="0x0100" type="Button">
+      <Button guid="guidAiderVSPackageCmdSet" id="AddToChatCommandId" priority="1" type="Button">
         <Parent guid="guidAiderVSPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke AddToChatCommand</ButtonText>
+          <ButtonText>Add to chat</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidAiderVSPackageCmdSet" id="RemoveFromChatCommand" priority="2" type="Button">
+        <Parent guid="guidAiderVSPackageCmdSet" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <Strings>
+          <ButtonText>Remove from chat</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -68,7 +75,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\AddToChatCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages" href="Resources\AddToChatCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -78,8 +85,9 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidAiderVSPackageCmdSet" value="{b2774995-3f08-4f6b-a005-8b937911822c}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="AddToChatCommandId" value="0x0100" />
+      <IDSymbol name="MyMenuGroup" value="1" />
+      <IDSymbol name="AddToChatCommandId" value="2" />
+      <IDSymbol name="RemoveFromChatCommand" value="3" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{294ed074-5d30-486d-89ee-d2c457848f99}" >
