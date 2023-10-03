@@ -47,12 +47,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AddToChatCommand.cs" />
+    <Compile Include="Aider.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="OutputWindowLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AiderVSPackage.cs" />
     <Compile Include="RemoveFromChatCommand.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

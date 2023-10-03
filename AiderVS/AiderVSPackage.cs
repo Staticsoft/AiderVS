@@ -1,7 +1,9 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,30 +37,65 @@ public sealed class AiderVSPackage : AsyncPackage
     /// </summary>
     public const string PackageGuidString = "1c8a04a1-7e9f-413d-b258-7303da93b38e";
 
-    OutputWindowLogger Logger;
-
     /// <summary>
     /// Initialization of the package; this method is called right after the package is sited, so this is the place
     /// where you can put all the initialization code that rely on services provided by VisualStudio.
     /// </summary>
-    /// <param name="cancellationToken">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
+    /// <param name="cancellation">A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.</param>
     /// <param name="progress">A provider for progress updates.</param>
     /// <returns>A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.</returns>
-    protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
+    protected override async Task InitializeAsync(CancellationToken cancellation, IProgress<ServiceProgressData> progress)
     {
         // When initialized asynchronously, the current thread may be a background thread at this point.
         // Do any initialization that requires the UI thread after switching to the UI thread.
-        await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-        await AddToChatCommand.InitializeAsync(this);
-        await RemoveFromChatCommand.InitializeAsync(this);
-        var window = (IVsOutputWindow)await GetServiceAsync(typeof(SVsOutputWindow));
-        Logger = await OutputWindowLogger.InitializeAsync(this, window, new Guid("75b97a3e-005b-448b-bca5-180710799bac"), "Aider");
-        Logger.Activate();
-        Logger.LogMessage("Aider loaded");
+        await JoinableTaskFactory.SwitchToMainThreadAsync(cancellation);
+        var aider = await LoadAider();
+        if (aider == null) return;
+
+        await AddToChatCommand.Initialize(this, aider);
+        await RemoveFromChatCommand.Initialize(this, aider);
     }
 
-    protected override void Dispose(bool disposing)
+    async Task<Aider> LoadAider()
     {
-        base.Dispose(disposing);
+        var output = await CreateOutputWindow();
+
+        var solutionPath = await GetSolutionPath();
+        if (solutionPath == null)
+        {
+            output.Log("Unable to find active solution path. Aider cannot be initialized.");
+            return null;
+        }
+
+        var aiderConfigPath = Path.Combine(solutionPath, ".aider.conf.yml");
+        if (!File.Exists(aiderConfigPath))
+        {
+            output.Log($"No aider config found at {aiderConfigPath}");
+            return null;
+        }
+
+        var aider = new Aider(solutionPath, output);
+        output.Log($"Using aider config at {aiderConfigPath}");
+        return aider;
     }
+
+    async Task<OutputWindowLogger> CreateOutputWindow()
+    {
+        var window = await Get<SVsOutputWindow, IVsOutputWindow>();
+        var logger = await OutputWindowLogger.InitializeAsync(this, window, new Guid("75b97a3e-005b-448b-bca5-180710799bac"), "Aider");
+        logger.Activate();
+        return logger;
+    }
+
+    async Task<string> GetSolutionPath()
+    {
+        var dte = await GetServiceAsync(typeof(DTE)) as DTE;
+        if (dte == null || dte.Solution == null || !dte.Solution.IsOpen) return null;
+
+        return Path.GetDirectoryName(dte.Solution.FullName);
+    }
+
+    public Task<Casted> Get<Resolved, Casted>()
+        where Casted : class
+        => this.GetServiceAsync<Resolved, Casted>();
 }

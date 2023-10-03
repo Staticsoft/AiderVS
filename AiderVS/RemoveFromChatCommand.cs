@@ -58,13 +58,9 @@ internal sealed class RemoveFromChatCommand
     /// Initializes the singleton instance of the command.
     /// </summary>
     /// <param name="package">Owner package, not null.</param>
-    public static async Task InitializeAsync(AsyncPackage package)
+    public static async Task Initialize(AiderVSPackage package, Aider aider)
     {
-        // Switch to the main thread - the call to AddCommand in RemoveFromChatCommand's constructor requires
-        // the UI thread.
-        await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
-
-        OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+        OleMenuCommandService commandService = await package.Get<IMenuCommandService, OleMenuCommandService>();
         Instance = new RemoveFromChatCommand(package, commandService);
     }
 
