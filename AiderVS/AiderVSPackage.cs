@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Logic;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -74,7 +75,7 @@ public sealed class AiderVSPackage : AsyncPackage
             return null;
         }
 
-        var aider = new Aider(solutionPath, output);
+        var aider = new Aider(new(solutionPath), output);
         output.Log($"Using aider config at {aiderConfigPath}");
         return aider;
     }

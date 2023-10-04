@@ -1,4 +1,4 @@
-﻿namespace AiderVS;
+﻿namespace Logic;
 
 public interface Logger
 {

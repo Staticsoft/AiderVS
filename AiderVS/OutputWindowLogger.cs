@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio;
+﻿using Logic;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;

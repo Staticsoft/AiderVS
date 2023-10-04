@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using Logic;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
@@ -74,10 +75,15 @@ internal sealed class AddToChatCommand
     void Execute(object sender, EventArgs e)
     {
         ThreadHelper.ThrowIfNotOnUIThread();
+        var _ = Package.JoinableTaskFactory.RunAsync(Execute);
+    }
+
+    async Task Execute()
+    {
         string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", GetType().FullName);
         string title = "AddToChatCommand";
 
-        // Show a message box to prove we were here
+        await Task.Delay(1000);
         VsShellUtilities.ShowMessageBox(
             Package,
             message,
