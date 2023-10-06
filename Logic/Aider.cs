@@ -18,13 +18,14 @@ public class Aider : IDisposable
         {
             StartInfo = new ProcessStartInfo
             {
-                FileName = "aider",
-                Arguments = "--no-pretty --no-git",
                 WorkingDirectory = options.WorkingDirectory,
+                FileName = @"C:\Python\python.exe",
+                Arguments = @"-m aider.main --no-git --no-pretty --programmatic-access",
                 UseShellExecute = false,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                CreateNoWindow = true
             }
         };
 
@@ -41,7 +42,7 @@ public class Aider : IDisposable
     {
         if (!process.HasExited)
         {
-            process.StandardInput.WriteLine("/exit");
+            WriteInput("/exit");
             process.WaitForExit();
         }
 
@@ -51,6 +52,15 @@ public class Aider : IDisposable
         process.Dispose();
     }
 
+    void WriteInput(string input)
+    {
+        process.StandardInput.WriteLine(input);
+        LogMessage($"> {input}");
+    }
+
     void LogMessage(object _, DataReceivedEventArgs message)
-        => Output.Log(message.Data);
+        => LogMessage(message.Data);
+
+    void LogMessage(string message)
+        => Output.Log(message);
 }

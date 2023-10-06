@@ -15,8 +15,11 @@ public class AiderTests : TestBase<Aider>
     public void CanStartAndStopAider()
     {
         SUT.Dispose();
-        Assert.NotEmpty(Get<LoggerFake>().Messages);
+        Assert.NotEmpty(Messages);
     }
+
+    IEnumerable<string> Messages
+        => Get<LoggerFake>().Messages;
 }
 
 public class LoggerFake : Logger
