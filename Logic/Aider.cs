@@ -5,13 +5,11 @@ namespace Logic;
 
 public class Aider : IDisposable
 {
-    readonly AiderOptions Options;
     readonly Logger Output;
     readonly Process process;
 
     public Aider(AiderOptions options, Logger output)
     {
-        Options = options;
         Output = output;
 
         process = new Process
