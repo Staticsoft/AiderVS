@@ -17,7 +17,7 @@ public class Aider : IDisposable
             StartInfo = new ProcessStartInfo
             {
                 WorkingDirectory = options.WorkingDirectory,
-                FileName = @"C:\Python\python.exe",
+                FileName = @"python",
                 Arguments = @"-m aider.main --no-git --no-pretty --programmatic-access",
                 UseShellExecute = false,
                 RedirectStandardInput = true,
