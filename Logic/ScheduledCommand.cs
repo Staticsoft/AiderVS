@@ -1,4 +1,6 @@
-﻿namespace Logic.Tests;
+﻿using System.Threading.Tasks;
+
+namespace Logic;
 
 public class ScheduledCommand
 {

@@ -1,5 +1,4 @@
-﻿using Logic;
-using Microsoft.VisualStudio.Shell;
+﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
@@ -59,7 +58,7 @@ internal sealed class RemoveFromChatCommand
     /// Initializes the singleton instance of the command.
     /// </summary>
     /// <param name="package">Owner package, not null.</param>
-    public static async Task Initialize(AiderVSPackage package, Aider aider)
+    public static async Task Initialize(AiderVSPackage package)
     {
         OleMenuCommandService commandService = await package.Get<IMenuCommandService, OleMenuCommandService>();
         Instance = new RemoveFromChatCommand(package, commandService);

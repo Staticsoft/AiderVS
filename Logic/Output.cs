@@ -1,4 +1,6 @@
-﻿namespace Logic.Tests;
+﻿using System;
+
+namespace Logic;
 
 public interface Output
 {

@@ -1,34 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Channels;
+using System.Threading.Tasks;
 
-namespace Logic.Tests;
-
-public interface Cli
-{
-    ChannelReader<string> Output { get; }
-    Task Write(string command);
-}
-
-public class ProcessCliOptions
-{
-    public required string Command { get; init; }
-    public required string WorkingDirectory { get; init; }
-    public string Arguments { get; init; } = string.Empty;
-}
-
-public class AiderCli : ProcessCli
-{
-    public AiderCli(AiderOptions options)
-        : base(ToProcessOptions(options)) { }
-
-    static ProcessCliOptions ToProcessOptions(AiderOptions options)
-        => new()
-        {
-            Command = "python",
-            Arguments = "-m aider.main --no-git --no-pretty --programmatic-access",
-            WorkingDirectory = options.WorkingDirectory
-        };
-}
+namespace Logic;
 
 public abstract class ProcessCli : Cli
 {

@@ -53,8 +53,8 @@ public sealed class AiderVSPackage : AsyncPackage
         var aider = await LoadAider();
         if (aider == null) return;
 
-        await AddToChatCommand.Initialize(this, aider);
-        await RemoveFromChatCommand.Initialize(this, aider);
+        await AddToChatCommand.Initialize(this);
+        await RemoveFromChatCommand.Initialize(this);
     }
 
     async Task<Aider> LoadAider()
@@ -75,7 +75,10 @@ public sealed class AiderVSPackage : AsyncPackage
             return null;
         }
 
-        var aider = new Aider(new(solutionPath), output);
+        var cliCommandExecutor = new CliCommandExecutor(new AiderCli(new AiderOptions(solutionPath)));
+        var aider = new Aider(
+            exit: new ExitCommand(cliCommandExecutor)
+        );
         output.Log($"Using aider config at {aiderConfigPath}");
         return aider;
     }

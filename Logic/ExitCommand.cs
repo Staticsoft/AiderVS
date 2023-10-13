@@ -1,4 +1,4 @@
-﻿namespace Logic.Tests;
+﻿namespace Logic;
 
 public class ExitCommand
 {

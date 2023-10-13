@@ -1,6 +1,10 @@
-﻿using System.Threading.Channels;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 
-namespace Logic.Tests;
+namespace Logic;
 
 public class CliCommandExecutor : IDisposable
 {
