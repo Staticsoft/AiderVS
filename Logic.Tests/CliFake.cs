@@ -52,13 +52,13 @@ public class CliFake : Cli, Input, Output, IDisposable
     {
         await Output.Writer.WriteAsync($"{nameof(CliFake)} is initializing...");
         await Output.Writer.WriteAsync($"{nameof(CliFake)} is ready");
-        await Output.Writer.WriteAsync("### READY FOR INPUT ###");
+        await Output.Writer.WriteAsync("### END OF OUTPUT ###");
     }
 
     async Task ExecuteCommand(string command)
     {
         await SimulateExecution();
-        var response = Responses[command].Append("### READY FOR INPUT ###");
+        var response = Responses[command].Append("### END OF OUTPUT ###");
         foreach (var line in response)
         {
             Received?.Invoke(line);

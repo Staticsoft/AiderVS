@@ -45,7 +45,7 @@ public class CliCommandExecutor : IDisposable
         while (await Cli.Output.WaitToReadAsync())
         {
             var line = await Cli.Output.ReadAsync();
-            if (line == "### READY FOR INPUT ###") break;
+            if (line == "### END OF OUTPUT ###") break;
 
             lines.Add(line);
         }
@@ -73,9 +73,7 @@ public class CliCommandExecutor : IDisposable
     }
 
     async Task Initialize()
-    {
-        await Executions.Reader.ReadAsync();
-    }
+        => await Executions.Reader.ReadAsync();
 
     public void Dispose()
         => Cancellation.Cancel();
